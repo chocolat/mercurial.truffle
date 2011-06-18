@@ -1,0 +1,17 @@
+(trigger
+    (key [[ctrl][shift]M]))
+
+(name AddRemove)
+
+(input nothing)
+
+(output tooltip)
+
+(save nothing)
+
+(script [require_cmd "${TM_HG:=hg}" "If you have installed hg, then you need to either update your <tt>PATH</tt> or set the <tt>TM_HG</tt> shell variable (e.g. in Preferences / Advanced)"
+
+$TM_HG add
+$TM_HG remove --after
+
+])

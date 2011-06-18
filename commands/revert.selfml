@@ -1,0 +1,22 @@
+(trigger
+    (key [[ctrl][shift]M]))
+
+(name Revert)
+
+(input nothing)
+
+(output tooltip)
+
+(save nothing)
+
+(script [require_cmd "${TM_HG:=hg}" "If you have installed hg, then you need to either update your <tt>PATH</tt> or set the <tt>TM_HG</tt> shell variable (e.g. in Preferences / Advanced)"
+
+if [[ -z $TM_SELECTED_FILES ]]; then
+   "$TM_HG" revert "$TM_FILEPATH"
+else
+   eval "$TM_HG" revert $TM_SELECTED_FILES
+fi
+
+# will cause current file to be re-loaded
+rescan_project
+])

@@ -1,0 +1,12 @@
+(trigger
+    (key [[ctrl][shift]M]))
+
+(name Help)
+
+(input nothing)
+
+(output html)
+
+(save nothing)
+
+(script [ruby "$TM_BUNDLE_SUPPORT/hg_show_help.rb"])

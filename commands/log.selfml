@@ -1,0 +1,33 @@
+(trigger
+    (key [[ctrl][shift]M]))
+
+(name Log)
+
+(input nothing)
+
+(output html)
+
+(save nothing)
+
+(script [require_cmd "${TM_HG:=hg}" "If you have installed hg, then you need to either update your <tt>PATH</tt> or set the <tt>TM_HG</tt> shell variable (e.g. in Preferences / Advanced)"
+
+if [[ -d "$TM_PROJECT_DIRECTORY" ]]
+   then export WorkPath="$TM_PROJECT_DIRECTORY"; cd "$TM_PROJECT_DIRECTORY"
+   else export WorkPath="$TM_DIRECTORY"; cd "$TM_DIRECTORY"
+fi
+      
+FORMAT_LOG="${TM_BUNDLE_SUPPORT}/format_log.rb"
+HG_STYLE="${TM_BUNDLE_SUPPORT}/map-log.changelog"
+
+if [[ $TM_HG_LOG_LIMIT != 0 ]]
+	then HG_LIMIT="-l ${TM_HG_LOG_LIMIT:=10}"
+fi
+
+HG_STYLE_TMP='"$HG_STYLE"'
+TM_HG_TMP='"$TM_HG"'
+
+if [[ -z $TM_SELECTED_FILES ]]; then
+   "$TM_HG" log $HG_LIMIT --style "$HG_STYLE" "$TM_FILEPATH" 2>&1 |ruby -- "$FORMAT_LOG"
+else
+   eval "$TM_HG_TMP" log $HG_LIMIT --style "$HG_STYLE_TMP" "$TM_SELECTED_FILES" 2>&1 |ruby -- "$FORMAT_LOG"
+fi])
